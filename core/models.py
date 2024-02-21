@@ -26,7 +26,7 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
-    group = models.OneToOneField(Group, null=True, blank=True, on_delete=models.SET_NULL, related_name='group')
+    group = models.ForeignKey(Group, null=True, blank=True, on_delete=models.SET_NULL, related_name='group')
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
@@ -46,8 +46,8 @@ class Task(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     completion_date = models.DateTimeField(auto_now_add=True)
     due_date = models.DateTimeField(auto_now_add=True)
-    created_by = models.OneToOneField(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='created_by')
-    assigned_to = models.OneToOneField(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='assigned_to')
+    created_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='created_by')
+    assigned_to = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='assigned_to')
     choices = [
         ('in_progress', 'In progress'),
         ('complete', 'Complete'),
