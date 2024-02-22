@@ -1,3 +1,7 @@
+# Ignore virtual environment
+venv/
+
+# Ignore database file
 db.sqlite3
 
 # Byte-compiled / optimized / DLL files
@@ -7,33 +11,23 @@ __pycache__/
 # C extensions
 *.so
 
-# Distribution / packaging
-.Python
-env/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-*.egg-info/
-.installed.cfg
-*.egg
+# Ignore static files
+/staticfiles/
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+# Ignore media files
+/media/
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+# Ignore environment variables file
+.env
+
+# Ignore IDE files (specific to your IDE, add more if needed)
+.vscode/
+.idea/
+
+
+# Ignore migration files (unless they are part of your version control strategy)
+*/migrations/*.py
+*/migrations/*.pyc
 
 # Unit test / coverage reports
 htmlcov/
@@ -45,15 +39,13 @@ nosetests.xml
 coverage.xml
 *,cover
 
-# Translations
-*.mo
-*.pot
+# Ignore compiled Python files
+*.pyc
 
-# Django stuff:
+# Ignore any local settings files
+local_settings.py
+
+# Ignore logs and other temporary files
 *.log
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
+*.swp
+*~
