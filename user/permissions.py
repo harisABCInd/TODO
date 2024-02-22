@@ -1,7 +1,7 @@
 from rest_framework import permissions
 from core.models import Group
 
-class IsAdminOrReadOnly(permissions.BasePermission):
+class IsAdminOnly(permissions.BasePermission):
     """
     Custom permission to give access to admin or read only
     """

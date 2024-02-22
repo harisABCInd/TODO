@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from core.models import User
+from user.permissions import IsAdminOnly
 from user.serializers import GroupSerializer, UserSerializer, UserDetailSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -17,14 +18,14 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
     queryset = Group.objects.all()
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAdminOnly]
 
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserDetailSerializer
     queryset = User.objects.all()
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAdminOnly]
 
     def get_serializer_class(self):
         if self.action == 'create' or self.action == 'list':
