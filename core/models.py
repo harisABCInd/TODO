@@ -29,13 +29,7 @@ class User(AbstractUser):
     group = models.ForeignKey(Group, null=True, blank=True, on_delete=models.SET_NULL, related_name='group')
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
-
     objects = UserManager()
-    class Meta:
-        permissions = (
-            ('create_user', 'Create user'),
-            ('update_group', 'Update group'),
-        )
 
     def __str__(self) -> str:
         return self.email
@@ -57,12 +51,6 @@ class Task(models.Model):
         ('cancel', 'Cancel'),
     ]
     status = models.CharField(max_length=64, choices=choices)
-
-    class Meta:
-        permissions = (
-            ('create_task', 'Create task'),
-            ('update_task', 'Update task'),
-        )
 
     def __str__(self) -> str:
         return self.name
