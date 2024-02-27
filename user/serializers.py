@@ -37,9 +37,13 @@ class UserSerializer(serializers.ModelSerializer):
         confirm_password = validated_data.pop('confirm_password', None)
         user = super().update(instance, validated_data)
 
-        if password:
+        # Check if passwords match
+        if password and confirm_password:
+            if password != confirm_password:
+                raise serializers.ValidationError("Passwords do not match")
             user.set_password(password)
-            user.save()
+
+        user.save()
 
         return user
 
