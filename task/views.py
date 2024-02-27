@@ -2,8 +2,8 @@ from datetime import datetime
 from django.shortcuts import render
 from rest_framework import viewsets, generics
 from core.models import Task, User
-from task.permissions import IsAdminOwnerOrAssignedReadOnly
-from task.serializers import TaskDetailSerializer, TaskSerializer
+from task.permissions import CanUpdateTaskStatus, IsAdminOwnerOrAssignedReadOnly
+from task.serializers import TaskDetailSerializer, TaskSerializer, TaskStatusUpdateSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
@@ -52,9 +52,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     
     def perform_update(self, serializer):
         serializer.is_valid(raise_exception=True)
-        instance = self.get_object()
         user_group = self.request.user.group.name
-        assigned_user = instance.assigned_to
 
         if 'assigned_to' in serializer.validated_data:
             assigned_user = serializer.validated_data.get('assigned_to')
@@ -68,6 +66,15 @@ class TaskViewSet(viewsets.ModelViewSet):
 
 class TaskStatusUpdateView(generics.UpdateAPIView):
     queryset = Task.objects.all()
+    serializer_class = TaskStatusUpdateSerializer
+    authentication_class = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, CanUpdateTaskStatus]
 
     
-            
+    def perform_update(self, serializer):
+        serializer.is_valid(raise_exception=True)
+
+        if 'status' in serializer.validated_data and serializer.validated_data['status'] == 'complete':
+            serializer.validated_data['completion_date'] = datetime.now()
+
+        serializer.save()

@@ -13,3 +13,9 @@ class TaskSerializer(serializers.ModelSerializer):
 class TaskDetailSerializer(TaskSerializer):
     created_by = UserDetailSerializer()
     assigned_to = UserDetailSerializer()
+
+class TaskStatusUpdateSerializer(TaskSerializer):
+    class Meta:
+        model = Task
+        fields = ['status', 'completion_date']
+        read_only_fields = ('completion_date',)

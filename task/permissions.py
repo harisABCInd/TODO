@@ -16,3 +16,14 @@ class IsAdminOwnerOrAssignedReadOnly(permissions.BasePermission):
                 elif request.user.group.name == 'Employee' and request.method in permissions.SAFE_METHODS and request.user == obj.assigned_to:
                     return True
         return False
+    
+
+class CanUpdateTaskStatus(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.user.is_authenticated:
+            if request.user.group:
+                if request.user.group.name == 'Admin':
+                    return True
+                elif request.user == obj.created_by or request.user == obj.assigned_to:
+                    return True
+        return False
